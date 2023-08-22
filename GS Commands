@@ -1,0 +1,76 @@
+#include <EEPROM.h>
+#include <XBee.h>
+char gs_commands, buffers[120];
+Value1 = UTCtime;
+double Value2 = pressure;
+XBee xbee = XBee(2,3);
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(2,INPUT);
+  pinMode(3,OUTPUT);
+  pinMode(13,OUTPUT);
+  xbee.begin(9600);
+}
+
+void loop() 
+{
+  if(xbee.available()>0)
+  {
+    gs_commands = xbee.read();
+    Serial.print("Ground Station is initiating to give commands");
+    if(gs_commands=='0')
+    {
+      sprintf(buffers,"CAL,%f",actualAltitude);
+    }
+    if(gs_commands=='1')
+    {
+      sprintf(buffers,"CMD,1033,CX,ON");
+    }
+    else if(temp=='2')
+    {
+      sprintf(buffers,"CMD,1033,CX,OFF");
+    }
+    else if(gs_commands=='3-Value1-')
+    {
+      sprintf(buffers,"CMD,1033,ST,%d:%d:%d",UTCtime1,UTCtime2,sec)
+    } 
+    else if(gs_commands=='4')
+    {
+      sprintf(buffers,"CMD,1033,SIM,ENABLE");
+    }
+    else if(gs_commands=='5')
+    {
+      sprintf(buffers,"CMD,1033,SIM,ACTIVATE");
+    }
+    else if(gs_commands=='6-Value2-')
+    {
+      sprintf(buffers,"CMD,1033,SIMP,%lf",pressure);
+    }
+    else if(gs_commands=='7')
+    {
+      sprintf(buffers,"CMD,1033,PC,%d",packetCount);
+    }  
+    else if(gs_commands=='a')
+    {
+      sprintf(buffers,"CMD,1033,HS,START");
+      HServo.write(0);
+    }
+    else if(gs_commands=='A')
+    {
+      sprintf(buffers,"CMD,1033,HS,STOP");
+      HServo.write(90);
+    }
+    else if(gs_commands=='b')
+    {
+      sprintf(buffers,"CMD,1033,ServoParachute");
+      PServo.write(90);
+    }
+    else if(gs_commands=='c')
+    {
+      sprintf(buffers,"CMD,1033,ServoFlag");
+      MServo.write(180);
+    }
+    Serial.println(Buffers);
+  }
+}
