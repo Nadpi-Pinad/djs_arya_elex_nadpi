@@ -53,23 +53,18 @@ void loop()
     }  
     else if(gs_commands=='a')
     {
-      sprintf(buffers,"CMD,1033,HS,START");
-      HServo.write(0);
-    }
-    else if(gs_commands=='A')
-    {
-      sprintf(buffers,"CMD,1033,HS,STOP");
-      HServo.write(90);
-    }
-    else if(gs_commands=='b')
-    {
       sprintf(buffers,"CMD,1033,ServoParachute");
       PServo.write(90);
     }
-    else if(gs_commands=='c')
+    else if(gs_commands=='b')
     {
-      sprintf(buffers,"CMD,1033,ServoFlag");
-      MServo.write(180);
+      sprintf(buffers,"CMD,1033,HS_DET,START");
+      HServo.write(0);
+    }
+    else if(gs_commands=='B')
+    {
+      sprintf(buffers,"CMD,1033,HS_DET,STOP");
+      HServo.write(90);
     }
     Serial.println(Buffers);
   }
