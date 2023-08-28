@@ -20,7 +20,8 @@ void loop() {
   if (vin < 0.09) {
     vin = 0.0;
   }
-  
+
+  Serial.println("VOLTAGE");
   Serial.println(vin);
   // lcd.setCursor(0, 1);
   // lcd.print("INPUT V= ");
