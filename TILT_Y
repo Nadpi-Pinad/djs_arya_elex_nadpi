@@ -1,0 +1,42 @@
+/**************Tasks to be done***************/
+//Finding the tilt angles and the orientation of the CanSat
+
+/**************Library***************/
+#include <MPU9250_WE.h>
+#include <Wire.h>
+
+/**************Variable***************/
+
+/**************Define***************/
+#define MPU9250_ADDR 0x68
+
+/**************Object Declaration***************/
+MPU9250_WE myMPU9250 = MPU9250_WE(MPU9250_ADDR);
+
+/**************Setup***************/
+void setup() {
+Serial.begin(115200);
+Wire.begin();
+if(!myMPU9250.init()){
+Serial.println("MPU9250 does not respond");
+}
+else{
+Serial.println("MPU9250 is connected");
+}
+Serial.println("Position you MPU9250 flat and don’t move it – calibrating...");
+delay(1000);
+myMPU9250.autoOffsets();
+Serial.println("Done!");
+myMPU9250.setAccDLPF(MPU9250_DLPF_6);
+}
+
+/**************Loop***************/
+void loop() {
+xyzFloat angle = myMPU9250.getAngles();
+Serial.print(" TILT_Y = ");
+Serial.println(angle.y);
+Serial.print("Orientation of the module: ");
+Serial.println(myMPU9250.getOrientationAsString());
+Serial.println();
+delay(1000);
+}
