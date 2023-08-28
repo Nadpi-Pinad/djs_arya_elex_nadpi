@@ -2,7 +2,6 @@
 //Storing values from BMP280 in EEPROM
 
 /**************Library***************/
-#include <EEPROM.h> //EEPROM library
 #include <Adafruit_BMP280.h> //adafruit BMP280 library
 
 /**************Variable***************/
