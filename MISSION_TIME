@@ -1,0 +1,69 @@
+/*Tasks to be done**/
+//Measuring UTC time using Teensy 4.1
+
+/*Library**/
+#include <TimeLib.h> //UTC time library 
+
+/*Variable**/
+int UTChour,UTCminute,UTCsecond;
+
+/*UserDefine Function declaration**/
+void rtc_loop();   // digital clock display of the time
+
+/*Setup**/
+void setup(){
+ // while(hour()==0){
+    
+ setSyncProvider(getTeensy3Time);
+ // }
+  Serial.begin(9600);
+  //while (!Serial);
+  delay(100);
+  Serial.println(timeStatus());
+  if (timeStatus()!= timeSet) {
+    Serial.println("Unable to sync with the RTC");
+  } else {
+    Serial.println("According to UTC Time");
+  }
+
+}
+  time_t getTeensy3Time()
+{
+  return Teensy3Clock.get();
+}
+ /*Loop**/
+ void loop() {
+ 
+  rtc_loop();  
+  delay(1000);
+}
+/*Function Description**/
+
+void rtc_loop()
+{ // digital clock display of the time
+ UTCsecond = second();
+ 
+ if (hour()< 5 && minute()<30)
+ {
+    UTChour = (24+hour()-6);
+    UTCminute = (60+minute()-30);
+ }
+  else if (hour()>=5 && minute()>=30){
+   UTChour = (hour()-5);
+   UTCminute = (minute()-30);
+  }
+  else if (hour()<5 && minute()>=30){
+  UTChour = (24+hour()- 5);
+   UTCminute = (minute()-30);  
+  }
+ else if (hour()>=5 && minute()<30){
+  UTChour = (hour()-6);
+ UTCminute = (60+minute()-30);
+ }
+ 
+   Serial.print(UTChour);
+   Serial.print(":");
+   Serial.print(UTCminute);
+   Serial.print(":");
+   Serial.println(second());
+}
