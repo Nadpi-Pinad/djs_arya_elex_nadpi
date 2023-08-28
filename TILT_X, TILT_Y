@@ -36,9 +36,12 @@ myMPU9250.setAccDLPF(MPU9250_DLPF_6);
 /**************Loop***************/
 void loop() {
 xyzFloat angle = myMPU9250.getAngles();
-Angle = arcsin(g Value) */
 Serial.print("TILT_X = ");
 Serial.print(angle.x);
+Serial.print(" | TILT_Y = ");
+Serial.println(angle.y);
+Serial.print("Orientation of the module: ");
+Serial.println(myMPU9250.getOrientationAsString());
 Serial.println();
 delay(1000);
 }
