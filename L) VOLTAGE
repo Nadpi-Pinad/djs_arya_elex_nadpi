@@ -1,0 +1,31 @@
+int analogInput = 0;
+float vout = 0.0;
+float vin = 0.0;
+float R1 = 1000;  // resistance of R1 (100K)
+float R2 = 4700;  // resistance of R2 (10K)
+int value = 0;
+
+void setup() {
+  pinMode(analogInput, INPUT);
+  Serial.begin(9600);
+  // lcd.begin(16, 2);
+  // lcd.print("DC VOLTMETER");
+}
+
+void loop() {
+  value = analogRead(analogInput);
+  vout = (value * 5.0) / 1024.0;
+  vin =(4* vout / (R2 / (R1 + R2)));
+
+  if (vin < 0.09) {
+    vin = 0.0;
+  }
+
+  Serial.println("VOLTAGE");
+  Serial.println(vin);
+  // lcd.setCursor(0, 1);
+  // lcd.print("INPUT V= ");
+  // lcd.print(vin);
+
+  delay(500);
+}
